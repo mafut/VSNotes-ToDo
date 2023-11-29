@@ -3,6 +3,7 @@ const vscode = require('vscode');
 const {newNote, newNoteInWorkspace} = require('./src/newNote');
 const listNotes = require('./src/listNotes');
 const listTags = require('./src/listTags')
+const listTasks = require('./src/listTasks')
 const setupNotes = require('./src/setupNotes');
 const VSNotesTreeView = require('./src/treeView');
 const commitPush = require('./src/commitPush');
@@ -34,6 +35,10 @@ function activate(context) {
     // List tags
     let listTagsDisposable = vscode.commands.registerCommand('vsnotes.listTags', listTags);
     context.subscriptions.push(listTagsDisposable);
+
+    // List tasks
+    let listTasksDisposable = vscode.commands.registerCommand('vsnotes.listTasks', listTasks);
+    context.subscriptions.push(listTasksDisposable);
 
     // Run setup
     let setupDisposable = vscode.commands.registerCommand('vsnotes.setupNotes', setupNotes);

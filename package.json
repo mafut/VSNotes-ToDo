@@ -1,299 +1,316 @@
 {
-    "name": "vsnotes",
-    "displayName": "VSNotes",
-    "description": "Simple VS Code extension for plain text note taking.",
-    "version": "0.8.0",
-    "publisher": "patricklee",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/patleeman/VSNotes.git"
-    },
-    "icon": "media/icon/vsnotes_icon.png",
-    "license": "MIT",
-    "engines": {
-        "vscode": "^1.17.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "keywords": [
-        "vsnotes",
-        "notes",
-        "note taking",
-        "productivity",
-        "note"
-    ],
-    "activationEvents": [
-        "onCommand:vsnotes.newNote",
-        "onCommand:vsnotes.newNoteInWorkspace",
-        "onCommand:vsnotes.listNotes",
-        "onCommand:vsnotes.listTags",
-        "onCommand:vsnotes.setupNotes",
-        "onCommand:vsnotes.openNoteFolder",
-        "onCommand:vsnotes.commitPush",
-        "onCommand:vsnotes.pull",
-        "onCommand:vsnotes.search",
-        "onView:vsnotes"
-    ],
-    "main": "./extension",
-    "contributes": {
-        "configuration": {
+  "name": "vsnotes-todo",
+  "displayName": "VSNotes + ToDo",
+  "description": "Simple VS Code extension for plain text note taking + ToDo listing",
+  "version": "0.1.0",
+  "publisher": "mafut",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mafut/VSNotes-ToDo.git"
+  },
+  "icon": "media/icon/vsnotes_icon.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "vsnotes",
+    "notes",
+    "note taking",
+    "productivity",
+    "note",
+    "task",
+    "todo",
+    "checkbox",
+    "markdown"
+  ],
+  "activationEvents": [
+    "onCommand:vsnotes.newNote",
+    "onCommand:vsnotes.newNoteInWorkspace",
+    "onCommand:vsnotes.listNotes",
+    "onCommand:vsnotes.listTags",
+    "onCommand:vsnotes.listTasks",
+    "onCommand:vsnotes.setupNotes",
+    "onCommand:vsnotes.openNoteFolder",
+    "onCommand:vsnotes.commitPush",
+    "onCommand:vsnotes.pull",
+    "onCommand:vsnotes.search",
+    "onView:vsnotes"
+  ],
+  "main": "./extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "VSNotes Configuration",
+      "properties": {
+        "vsnotes.defaultNotePath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to directory to save notes. Use ~/ to denote a relative path from home folder."
+        },
+        "vsnotes.tokens": {
+          "type": "array",
+          "description": "Tokens used to replace text in file name.",
+          "items": {
             "type": "object",
-            "title": "VSNotes Configuration",
             "properties": {
-                "vsnotes.defaultNotePath": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Path to directory to save notes. Use ~/ to denote a relative path from home folder."
-                },
-                "vsnotes.tokens": {
-                    "type": "array",
-                    "description": "Tokens used to replace text in file name.",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "description": "Token name"
-                            },
-                            "token": {
-                                "type": "string",
-                                "description": "Token string"
-                            },
-                            "format": {
-                                "type": [
-                                    "string",
-                                    null
-                                ],
-                                "description": "Optional formatting information"
-                            },
-                            "description": {
-                                "type": [
-                                    "string",
-                                    null
-                                ],
-                                "description": "Token description"
-                            }
-                        }
-                    },
-                    "default": [
-                        {
-                            "type": "datetime",
-                            "token": "{dt}",
-                            "format": "YYYY-MM-DD_HH-mm",
-                            "description": "Insert formatted datetime."
-                        },
-                        {
-                            "type": "title",
-                            "token": "{title}",
-                            "description": "Insert note title from input box.",
-                            "format": "Untitled"
-                        },
-                        {
-                            "type": "extension",
-                            "token": "{ext}",
-                            "description": "Insert file vsnotes.",
-                            "format": "md"
-                        }
-                    ]
-                },
-                "vsnotes.defaultNoteTitle": {
-                    "type": "string",
-                    "default": "{dt}_{title}.{ext}",
-                    "description": "Default note title. Utilizes tokens set in vsnotes.tokens."
-                },
-                "vsnotes.additionalNoteTitles": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": [],
-                    "description": "List of additional note title tokens to choose from. If supplied, a picker will be shown when creating a new note."
-                },
-                "vsnotes.defaultNoteName": {
-                    "type": "string",
-                    "default": "New_Note",
-                    "description": "Default title for new notes."
-                },
-                "vsnotes.listRecentLimit": {
-                    "type": "number",
-                    "default": 15,
-                    "description": "Number of recent files to show when running command `List Notes`."
-                },
-                "vsnotes.noteTitleConvertSpaces": {
-                    "type": ["string", "null"],
-                    "default": "_",
-                    "description": "Automatically convert blank spaces in title to character. To disable set to `null`."
-                },
-                "vsnotes.templates": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": [],
-                    "description": "A list of markdown templates to choose from when creating a new note."
-                },
-                "vsnotes.defaultSnippet": {
-                    "type": "object",
-                    "properties": {
-                        "langId": {
-                            "type": "string",
-                            "description": "VS Code language identifier"
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "Snippet Name"
-                        }
-                    },
-                    "default": {
-                        "langId": "markdown",
-                        "name": "vsnote_template_default"
-                    },
-                    "description": "Default vscode snippet to execute after creating a note. Set both langId and name to null to disable."
-                },
-                "vsnotes.ignorePatterns": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": [
-                        "^\\."
-                    ],
-                    "description": "Regular expressions for file names to ignore when parsing documents in note folder."
-                },
-                "vsnotes.commitPushShellCommand": {
-                    "type": "string",
-                    "default": "git add -A && git commit -m \"{msg}\" && git push",
-                    "description": "Shell command to execute in the note directory when the Commit and Push command is executed. The {msg} token will be replaced with the contents of an input box shown or, if empty, the default commit message."
-                },
-                "vsnotes.pullShellCommand": {
-                    "type": "string",
-                    "default": "git pull",
-                    "description": "Shell command to execute in the note directory when the Pull command is executed."
-                },
-                "vsnotes.commitPushDefaultCommitMessage": {
-                    "type": "string",
-                    "default": "VS Notes Commit and Push",
-                    "description": "The default commit message used if none is provided with the Commit and Push command."
-                },
-                "vsnotes.treeviewHideTags": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Hide the tags section in the sidebar. Requires application restart."
-                },
-                "vsnotes.treeviewHideFiles": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Hide the files section in the sidebar. Requires application restart."
-                }
+              "type": {
+                "type": "string",
+                "description": "Token name"
+              },
+              "token": {
+                "type": "string",
+                "description": "Token string"
+              },
+              "format": {
+                "type": [
+                  "string",
+                  null
+                ],
+                "description": "Optional formatting information"
+              },
+              "description": {
+                "type": [
+                  "string",
+                  null
+                ],
+                "description": "Token description"
+              }
             }
+          },
+          "default": [
+            {
+              "type": "datetime",
+              "token": "{dt}",
+              "format": "YYYY-MM-DD_HH-mm",
+              "description": "Insert formatted datetime."
+            },
+            {
+              "type": "title",
+              "token": "{title}",
+              "description": "Insert note title from input box.",
+              "format": "Untitled"
+            },
+            {
+              "type": "extension",
+              "token": "{ext}",
+              "description": "Insert file vsnotes.",
+              "format": "md"
+            }
+          ]
         },
-        "commands": [
-            {
-                "command": "vsnotes.newNote",
-                "title": "VSNotes: Create a New Note"
-            },
-            {
-                "command": "vsnotes.newNoteInWorkspace",
-                "title": "VSNotes: Create a New Note in a workspace."
-            },
-            {
-                "command": "vsnotes.listNotes",
-                "title": "VSNotes: List recent notes"
-            },
-            {
-                "command": "vsnotes.listNotes",
-                "title": "VSNotes: Open note"
-            },
-            {
-                "command": "vsnotes.listTags",
-                "title": "VSNotes: List tags"
-            },
-            {
-                "command": "vsnotes.openNoteFolder",
-                "title": "VSNotes: Open Note Folder"
-            },
-            {
-                "command": "vsnotes.setupNotes",
-                "title": "VSNotes: Run setup"
-            },
-            {
-                "command": "vsnotes.commitPush",
-                "title": "VSNotes: Commit and Push"
-            },
-            {
-                "command": "vsnotes.pull",
-                "title": "VSNotes: Pull"
-            },
-            {
-                "command": "vsnotes.search",
-                "title": "VSNotes: Search notes"
-            },
-            {
-                "command": "vsnotes.refreshVSNotesView",
-                "title": "refresh",
-                "icon": {
-                    "light": "./media/light/sync.svg",
-                    "dark": "./media/dark/sync.svg"
-                }
-            }
-        ],
-        "keybindings": [
-            {
-                "command": "vsnotes.newNote",
-                "key": "",
-                "mac": ""
-            }
-        ],
-        "snippets": [
-            {
-                "language": "markdown",
-                "path": "./snippets/markdown.json"
-            }
-        ],
-        "views": {
-            "vsnotes": [
-                {
-                    "id": "vsnotes",
-                    "name": "VS Notes"
-                }
-            ]
+        "vsnotes.defaultNoteTitle": {
+          "type": "string",
+          "default": "{dt}_{title}.{ext}",
+          "description": "Default note title. Utilizes tokens set in vsnotes.tokens."
         },
-        "viewsContainers": {
-            "activitybar": [
-                {
-                    "id": "vsnotes",
-                    "title": "VS Notes",
-                    "icon": "./media/icon/vsnotes_icon.svg"
-                }
-            ]
+        "vsnotes.additionalNoteTitles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "List of additional note title tokens to choose from. If supplied, a picker will be shown when creating a new note."
         },
-        "menus": {
-            "view/title": [
-                {
-                    "command": "vsnotes.refreshVSNotesView",
-                    "when": "view == vsnotes",
-                    "group": "navigation"
-                }
-            ]
+        "vsnotes.defaultNoteName": {
+          "type": "string",
+          "default": "New_Note",
+          "description": "Default title for new notes."
+        },
+        "vsnotes.listRecentLimit": {
+          "type": "number",
+          "default": 15,
+          "description": "Number of recent files to show when running command `List Notes`."
+        },
+        "vsnotes.noteTitleConvertSpaces": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": "_",
+          "description": "Automatically convert blank spaces in title to character. To disable set to `null`."
+        },
+        "vsnotes.templates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "A list of markdown templates to choose from when creating a new note."
+        },
+        "vsnotes.defaultSnippet": {
+          "type": "object",
+          "properties": {
+            "langId": {
+              "type": "string",
+              "description": "VS Code language identifier"
+            },
+            "name": {
+              "type": "string",
+              "description": "Snippet Name"
+            }
+          },
+          "default": {
+            "langId": "markdown",
+            "name": "vsnote_template_default"
+          },
+          "description": "Default vscode snippet to execute after creating a note. Set both langId and name to null to disable."
+        },
+        "vsnotes.ignorePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "^\\."
+          ],
+          "description": "Regular expressions for file names to ignore when parsing documents in note folder."
+        },
+        "vsnotes.commitPushShellCommand": {
+          "type": "string",
+          "default": "git add -A && git commit -m \"{msg}\" && git push",
+          "description": "Shell command to execute in the note directory when the Commit and Push command is executed. The {msg} token will be replaced with the contents of an input box shown or, if empty, the default commit message."
+        },
+        "vsnotes.pullShellCommand": {
+          "type": "string",
+          "default": "git pull",
+          "description": "Shell command to execute in the note directory when the Pull command is executed."
+        },
+        "vsnotes.commitPushDefaultCommitMessage": {
+          "type": "string",
+          "default": "VS Notes Commit and Push",
+          "description": "The default commit message used if none is provided with the Commit and Push command."
+        },
+        "vsnotes.treeviewHideTags": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide the tags section in the sidebar. Requires application restart."
+        },
+        "vsnotes.treeviewHideTasks": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide the checkboxes section in the sidebar. Requires application restart."
+        },
+        "vsnotes.treeviewHideFiles": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide the files section in the sidebar. Requires application restart."
         }
+      }
     },
-    "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
+    "commands": [
+      {
+        "command": "vsnotes.newNote",
+        "title": "VSNotes: Create a New Note"
+      },
+      {
+        "command": "vsnotes.newNoteInWorkspace",
+        "title": "VSNotes: Create a New Note in a workspace."
+      },
+      {
+        "command": "vsnotes.listNotes",
+        "title": "VSNotes: List recent notes"
+      },
+      {
+        "command": "vsnotes.listNotes",
+        "title": "VSNotes: Open note"
+      },
+      {
+        "command": "vsnotes.listTags",
+        "title": "VSNotes: List tags"
+      },
+      {
+        "command": "vsnotes.listTasks",
+        "title": "VSNotes: List checkboxes"
+      },
+      {
+        "command": "vsnotes.openNoteFolder",
+        "title": "VSNotes: Open Note Folder"
+      },
+      {
+        "command": "vsnotes.setupNotes",
+        "title": "VSNotes: Run setup"
+      },
+      {
+        "command": "vsnotes.commitPush",
+        "title": "VSNotes: Commit and Push"
+      },
+      {
+        "command": "vsnotes.pull",
+        "title": "VSNotes: Pull"
+      },
+      {
+        "command": "vsnotes.search",
+        "title": "VSNotes: Search notes"
+      },
+      {
+        "command": "vsnotes.refreshVSNotesView",
+        "title": "refresh",
+        "icon": {
+          "light": "./media/light/sync.svg",
+          "dark": "./media/dark/sync.svg"
+        }
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "vsnotes.newNote",
+        "key": "",
+        "mac": ""
+      }
+    ],
+    "snippets": [
+      {
+        "language": "markdown",
+        "path": "./snippets/markdown.json"
+      }
+    ],
+    "views": {
+      "vsnotes": [
+        {
+          "id": "vsnotes",
+          "name": "VS Notes + ToDo"
+        }
+      ]
     },
-    "devDependencies": {
-        "@types/mocha": "^5.2.1",
-        "@types/node": "^10.3.1",
-        "eslint": "^4.19.1",
-        "mocha": "^5.2.0",
-        "typescript": "^2.9.1",
-        "vscode": "^1.1.18"
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vsnotes",
+          "title": "VS Notes + ToDo",
+          "icon": "./media/icon/vsnotes_icon.svg"
+        }
+      ]
     },
-    "dependencies": {
-        "fs-extra": "^6.0.1",
-        "gray-matter": "^4.0.1",
-        "klaw": "^2.1.1",
-        "moment": "^2.22.2"
+    "menus": {
+      "view/title": [
+        {
+          "command": "vsnotes.refreshVSNotesView",
+          "when": "view == vsnotes",
+          "group": "navigation"
+        }
+      ]
     }
+  },
+  "scripts": {},
+  "devDependencies": {
+    "@types/vscode": "^1.84.0",
+    "@types/mocha": "^10.0.3",
+    "@types/node": "18.x",
+    "@vscode/test-electron": "^2.3.6",
+    "eslint": "^8.52.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "fs-extra": "^11.0.0",
+    "gray-matter": "^4.0.3",
+    "klaw": "^4.1.0",
+    "moment": "^2.29.4",
+    "n-readlines": "^1.0.1"
+  }
 }
