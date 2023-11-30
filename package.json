@@ -11,7 +11,7 @@
   "icon": "media/icon/vsnotes_icon.png",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.84.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
     "Other"
@@ -337,7 +337,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.3",
     "@types/node": "18.x",
-    "@types/vscode": "^1.84.0",
+    "@types/vscode": "^1.80.0",
     "eslint": "^8.52.0",
     "glob": "^10.3.10",
     "mocha": "^10.2.0",

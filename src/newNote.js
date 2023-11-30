@@ -149,7 +149,6 @@ function createTemplate({ template = null }) {
   }
 }
 
-
 // Create the given file if it doesn't exist
 function createFile (folderPath, fileName) {
   return new Promise((resolve, reject) => {
@@ -165,7 +164,6 @@ function createFile (folderPath, fileName) {
     })
   });
 }
-
 
 function replaceTokens (format, title, tokens) {
   let newFormat = format

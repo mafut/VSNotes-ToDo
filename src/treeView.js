@@ -1,11 +1,12 @@
 const vscode = require("vscode");
-const fs = require("fs-extra");
 const path = require("path");
+const { getNotes } = require("./getNotes");
 const { getTags } = require("./getTags");
 const { getTasks } = require("./getTasks");
 const { resolveHome } = require("./utils");
 
 class VSNotesTreeView {
+
   constructor() {
     const config = vscode.workspace.getConfiguration("vsnotes");
     this.baseDir = resolveHome(config.get("defaultNotePath"));
@@ -49,7 +50,7 @@ class VSNotesTreeView {
         case "rootTask":
           return Promise.resolve(getTasks(this.baseDir));
         case "rootFile":
-          return Promise.resolve(this._getDirectoryContents(this.baseDir));
+          return Promise.resolve(getNotes(this.baseDir));
         case "tag":
           return node.files;
         case "taskGroup":
@@ -58,7 +59,7 @@ class VSNotesTreeView {
         case "task":
           return null;
         case "file":
-          return Promise.resolve(this._getDirectoryContents(node.path));
+          return Promise.resolve(getNotes(node.path));
       }
     } else {
       const treeview = [];
@@ -161,30 +162,6 @@ class VSNotesTreeView {
         }
         return fileTreeItem;
     }
-  }
-
-  // Given a filepath, return an array of TreeItems
-  _getDirectoryContents(filePath) {
-    return new Promise((resolve, reject) => {
-      fs.readdir(filePath)
-        .then((files) => {
-          let items = [];
-          files.forEach((file) => {
-            if (!this.ignorePattern.test(file)) {
-              items.push({
-                type: "file",
-                file: file,
-                path: path.join(filePath, file),
-                stats: fs.statSync(path.join(filePath, file)),
-              });
-            }
-          });
-          resolve(items);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
   }
 }
 

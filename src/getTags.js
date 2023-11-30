@@ -27,7 +27,7 @@ function getTags(noteFolderPath, isFileList = false) {
                 contents: contents,
                 payload: {
                   type: "file",
-                  filename: fileName,
+                  file: fileName,
                   path: item.path,
                   stats: item.stats,
                 }
