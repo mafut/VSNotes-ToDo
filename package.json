@@ -44,7 +44,7 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "VSNotes Configuration",
+      "title": "VSNotes+ToDo Configuration",
       "properties": {
         "vsnotes.defaultNotePath": {
           "type": "string",
@@ -192,12 +192,45 @@
         "vsnotes.treeviewHideTasks": {
           "type": "boolean",
           "default": false,
-          "description": "Hide the checkboxes section in the sidebar. Requires application restart."
+          "description": "Hide the tasks section in the sidebar. Requires application restart."
         },
         "vsnotes.treeviewHideFiles": {
           "type": "boolean",
           "default": false,
           "description": "Hide the files section in the sidebar. Requires application restart."
+        },
+        "vsnotes.taskIncludeCompleted": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show even completed tasks. Requires application restart."
+        },
+        "vsnotes.taskGroupBy": {
+          "type": "string",
+          "enum": [
+            "flat",
+            "file",
+            "folder"
+          ],
+          "enumDescriptions": [
+            "Not grouped by file name and folder",
+            "Group by file name",
+            "Group by folder"
+          ],
+          "default": "folder"
+        },
+        "vsnotes.taskPrefix": {
+          "type": "string",
+          "enum": [
+            "ignore",
+            "override",
+            "sub"
+          ],
+          "enumDescriptions": [
+            "Prefix is not used",
+            "Override group unit",
+            "Add as sub group"
+          ],
+          "default": "sub"
         }
       }
     },

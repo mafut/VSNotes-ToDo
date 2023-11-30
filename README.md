@@ -43,9 +43,34 @@ VS Notes + ToDo is extended version of VS Notes that is a simple tool that takes
 1. Retrieve uncompleted tasks ("- [ ] as format") on your notes.
 2. View your tasks in your filebar and Jump to each task
 
-### Tags
+### Tasks
 
-VS Notes ships with a default YAML encoded snippet that it will insert on creation of a new note.
+Tasks are scanned across notes and they are grouped by the following 2 settings.
+
+- Group By (taskGroupBy)
+  - Flat
+  - Per file
+  - Per folder
+- Prefix (taskPrefix)
+  - Ignore
+  - Override
+  - Sub
+
+ Folder | File Name | Sample Task | taskGroupBy | taskPrefix | **Grouping**
+--------|-----------|-------------|-------------|------------|--------------
+ Project | Plan.md | - [ ] ToDo1 | Flat | any | **Flat**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Flat | Ignore | **Flat**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Flat | Override | **Prefix**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Flat | Sub | **Prefix**
+ Project | Plan.md | - [ ] ToDo1 | Per File | any | **Plan**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Per File | Ignore | **Plan**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Per File | Override | **Prefix**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Per File | Sub | **Plan-Prefix**
+ Project | Plan.md | - [ ] ToDo1 | Per Folder | any | **Project**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Per Folder | Ignore | **Project**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Per Folder | Override | **Prefix**
+ Project | Plan.md | - [ ] Prefix: ToDo1 | Per Folder | Sub | **Project-Sub**
+
 
 ### Custom Activity Bar Section & Explorer View
 
@@ -130,6 +155,16 @@ Available settings
 
 // Hide the tasks section in the sidebar. Requires application restart.
 "vsnotes.treeviewHideTasks": false,
+
+// Show even completed tasks. Requires application restart.
+"vsnotes.taskIncludeCompleted": false,
+
+// Setting how task is group by
+"vsnotes.taskGroupBy": "flat",
+
+// Setting how prefix of task is handled
+"vsnotes.taskPrefix": "ignore"
+
 ```
 
 ## Roadmap & Features

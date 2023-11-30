@@ -5,7 +5,6 @@ const path = require('path');
 const moment = require('moment');
 const {resolveHome} = require('./utils');
 
-
 // This function handles creation of a new note in default note folder
 function newNote() {
   const config = vscode.workspace.getConfiguration('vsnotes');
@@ -55,7 +54,6 @@ function newNoteInWorkspace() {
     })
   }
 }
-
 
 async function createNote({ noteFolder, template }) {
   const config = vscode.workspace.getConfiguration('vsnotes');
