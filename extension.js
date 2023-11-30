@@ -66,11 +66,12 @@ function activate(context) {
     return vscode.commands.executeCommand('vscode.openFolder', uri, true);
   })
   context.subscriptions.push(openNoteFolderDisposable);
-
 }
-exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() {
+function deactivate() { }
+
+module.exports = {
+  activate,
+  deactivate
 }
-exports.deactivate = deactivate;

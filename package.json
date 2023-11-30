@@ -40,7 +40,7 @@
     "onCommand:vsnotes.search",
     "onView:vsnotes"
   ],
-  "main": "./extension",
+  "main": "./extension.js",
   "contributes": {
     "configuration": {
       "type": "object",
@@ -328,16 +328,22 @@
       ]
     }
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "testByElectron": "node ./test/runTest.js",
+    "test": "vscode-test"
+  },
   "devDependencies": {
-    "@types/vscode": "^1.84.0",
     "@types/mocha": "^10.0.3",
     "@types/node": "18.x",
-    "@vscode/test-electron": "^2.3.6",
+    "@types/vscode": "^1.84.0",
     "eslint": "^8.52.0",
     "glob": "^10.3.10",
     "mocha": "^10.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.6"
   },
   "dependencies": {
     "fs-extra": "^11.0.0",
