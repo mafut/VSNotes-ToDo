@@ -216,7 +216,7 @@
             "Group by file name",
             "Group by folder"
           ],
-          "default": "folder"
+          "default": "flat"
         },
         "vsnotes.taskPrefix": {
           "type": "string",
@@ -230,7 +230,7 @@
             "Override group unit",
             "Add as sub group"
           ],
-          "default": "sub"
+          "default": "ignore"
         }
       }
     },

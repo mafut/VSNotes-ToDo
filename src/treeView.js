@@ -93,8 +93,8 @@ class VSNotesTreeView {
       case "rootTask":
         let rootTaskTreeItem = new vscode.TreeItem("Tasks", vscode.TreeItemCollapsibleState.Expanded);
         rootTaskTreeItem.iconPath = {
-          light: path.join(__filename, "..", "..", "media", "light", "task.svg"),
-          dark: path.join(__filename, "..", "..", "media", "dark", "task.svg"),
+          light: path.join(__filename, "..", "..", "media", "light", "tasks.svg"),
+          dark: path.join(__filename, "..", "..", "media", "dark", "tasks.svg"),
         };
         return rootTaskTreeItem;
       case "rootFile":
@@ -120,8 +120,8 @@ class VSNotesTreeView {
           vscode.TreeItemCollapsibleState.Collapsed
         );
         taskGroupTreeItem.iconPath = {
-          light: path.join(__filename, "..", "..", "media", "light", "file.svg"),
-          dark: path.join(__filename, "..", "..", "media", "dark", "file.svg"),
+          light: path.join(__filename, "..", "..", "media", "light", "group.svg"),
+          dark: path.join(__filename, "..", "..", "media", "dark", "group.svg"),
         };
         return taskGroupTreeItem;
       case "task":
@@ -136,9 +136,10 @@ class VSNotesTreeView {
           arguments: [node]
         };
 
+        let icon = node.state ? "completed.svg" : "task.svg";
         taskTreeItem.iconPath = {
-          light: path.join(__filename, "..", "..", "media", "light", "task.svg"),
-          dark: path.join(__filename, "..", "..", "media", "dark", "task.svg"),
+          light: path.join(__filename, "..", "..", "media", "light", icon),
+          dark: path.join(__filename, "..", "..", "media", "dark", icon),
         };
         return taskTreeItem;
       case "file":

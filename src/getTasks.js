@@ -3,7 +3,7 @@ const path = require('path');
 const klaw = require('klaw');
 const lineByLine = require('n-readlines');
 const taskPattern = /\s*-\s+\[([xX\s]{1})\]\s+(.+)/i;
-const prefixPattern = /([^:]+:\s)*(.+)/i;
+const prefixPattern = /(?:([^:]+):\s)*(.+)/i;
 const noGroup = "No Group";
 
 // Given a folder path, traverse and find all markdown files.
@@ -25,10 +25,10 @@ function getTasks(noteFolderPath) {
       .on("data", (item) => {
         files.push(
           new Promise((res, rej) => {
-            const fileName = path.basename(item.path);
-            const group = taskGroupBy === "file"
+            let fileName = path.basename(item.path);
+            let group = (taskGroupBy == "file")
               ? path.parse(fileName).name
-              : taskGroupBy === "folder"
+              : (taskGroupBy == "folder")
                 ? path.parse(path.dirname(item.path)).name
                 : noGroup;
 
@@ -55,12 +55,15 @@ function getTasks(noteFolderPath) {
           for (let i = 0; i < files.length; i++) {
             if (files[i] != null && files[i]) {
               let group = files[i].group;
+
               let liner = new lineByLine(files[i].path);
               let line;
               let lineNumber = 0;
               while (line = liner.next()) {
                 let match = line.toString('utf8').match(taskPattern);
                 if (match && match != null && match.length == 3) {
+                  let task = match[2];
+
                   // Completed Task
                   if (match[1].toLowerCase() === "x" && !showCompleted) {
                     lineNumber++;
@@ -70,25 +73,30 @@ function getTasks(noteFolderPath) {
                   // Define group
                   if (taskPrefix === "override" || taskPrefix === "sub") {
                     let matchPrefix = match[2].toString('utf8').match(prefixPattern);
-                    if (matchPrefix && matchPrefix != null && matchPrefix.length == 3) {
-                      group = (group == undefined || group == noGroup || taskPrefix === "override")
-                        ? matchPrefix[1]
-                        : files[i].group + "-" + matchPrefix[1];
+
+                    if (matchPrefix && matchPrefix != null && matchPrefix.length == 3 && matchPrefix[1] !== undefined) {
+                      if (group === undefined || group == noGroup || taskPrefix === "override") {
+                        group = matchPrefix[1].trim();
+                      } else {
+                        group = files[i].group + "-" + matchPrefix[1].trim();
+                        task = matchPrefix[2].trim();
+                      }
                     }
                   }
 
-                  let task = {
+                  let taskNode = {
                     type: "task",
-                    task: match[2],
+                    task: task,
                     path: files[i].path,
-                    line: lineNumber
+                    line: lineNumber,
+                    state: match[1].toLowerCase() === "x" ? true : false
                   };
 
                   // Store
-                  if (files[i].group in taskByGroup) {
-                    taskByGroup[group].push(task);
+                  if (group in taskByGroup) {
+                    taskByGroup[group].push(taskNode);
                   } else {
-                    taskByGroup[group] = [task];
+                    taskByGroup[group] = [taskNode];
                   }
                 }
                 lineNumber++;
