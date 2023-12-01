@@ -2,7 +2,7 @@
   "name": "vsnotes-todo",
   "displayName": "VSNotes+ToDo",
   "description": "Simple VS Code extension for plain text note taking + ToDo tracking",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "mafut",
   "repository": {
     "type": "git",

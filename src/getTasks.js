@@ -74,7 +74,7 @@ function getTasks(noteFolderPath, isCommand = false) {
                   );
 
                   if (taskNode) {
-                    taskNode.lineNumber = lineNumber;
+                    taskNode.line = lineNumber;
                     // Store
                     if (taskNode.group in taskByGroup) {
                       taskByGroup[taskNode.group].push(taskNode);
