@@ -167,7 +167,7 @@ function getTaskNode(filepath, match, taskConfig) {
     type: "task",
     task: task,
     group: group,
-    path: path,
+    path: filepath,
     line: 0,
     state: match[1].toLowerCase() === "x" ? true : false
   };
