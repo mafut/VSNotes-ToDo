@@ -1,8 +1,8 @@
 {
   "name": "vsnotes-todo",
-  "displayName": "VSNotes + ToDo",
-  "description": "Simple VS Code extension for plain text note taking + ToDo listing",
-  "version": "0.1.0",
+  "displayName": "VSNotes+ToDo",
+  "description": "Simple VS Code extension for plain text note taking + ToDo tracking",
+  "version": "0.1.1",
   "publisher": "mafut",
   "repository": {
     "type": "git",
@@ -32,7 +32,6 @@
     "onCommand:vsnotes.newNoteInWorkspace",
     "onCommand:vsnotes.listNotes",
     "onCommand:vsnotes.listTags",
-    "onCommand:vsnotes.listTasks",
     "onCommand:vsnotes.setupNotes",
     "onCommand:vsnotes.openNoteFolder",
     "onCommand:vsnotes.commitPush",
@@ -230,54 +229,50 @@
             "Override group unit",
             "Add as sub group"
           ],
-          "default": "ignore"
+          "default": "override"
         }
       }
     },
     "commands": [
       {
         "command": "vsnotes.newNote",
-        "title": "VSNotes: Create a New Note"
+        "title": "VSNotes+ToDo: Create a New Note"
       },
       {
         "command": "vsnotes.newNoteInWorkspace",
-        "title": "VSNotes: Create a New Note in a workspace."
+        "title": "VSNotes+ToDo: Create a New Note in a workspace."
       },
       {
         "command": "vsnotes.listNotes",
-        "title": "VSNotes: List recent notes"
+        "title": "VSNotes+ToDo: List recent notes"
       },
       {
         "command": "vsnotes.listNotes",
-        "title": "VSNotes: Open note"
+        "title": "VSNotes+ToDo: Open note"
       },
       {
         "command": "vsnotes.listTags",
-        "title": "VSNotes: List tags"
-      },
-      {
-        "command": "vsnotes.listTasks",
-        "title": "VSNotes: List checkboxes"
+        "title": "VSNotes+ToDo: List tags"
       },
       {
         "command": "vsnotes.openNoteFolder",
-        "title": "VSNotes: Open Note Folder"
+        "title": "VSNotes+ToDo: Open Note Folder"
       },
       {
         "command": "vsnotes.setupNotes",
-        "title": "VSNotes: Run setup"
+        "title": "VSNotes+ToDo: Run setup"
       },
       {
         "command": "vsnotes.commitPush",
-        "title": "VSNotes: Commit and Push"
+        "title": "VSNotes+ToDo: Commit and Push"
       },
       {
         "command": "vsnotes.pull",
-        "title": "VSNotes: Pull"
+        "title": "VSNotes+ToDo: Pull"
       },
       {
         "command": "vsnotes.search",
-        "title": "VSNotes: Search notes"
+        "title": "VSNotes+ToDo: Search notes"
       },
       {
         "command": "vsnotes.refreshVSNotesView",
@@ -305,7 +300,7 @@
       "vsnotes": [
         {
           "id": "vsnotes",
-          "name": "VS Notes + ToDo"
+          "name": "VS Notes+ToDo"
         }
       ]
     },
@@ -313,7 +308,7 @@
       "activitybar": [
         {
           "id": "vsnotes",
-          "title": "VS Notes + ToDo",
+          "title": "VS Notes+ToDo",
           "icon": "./media/icon/vsnotes_icon.svg"
         }
       ]

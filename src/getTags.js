@@ -6,7 +6,7 @@ const matter = require('gray-matter');
 
 // Given a folder path, traverse and find all markdown files.
 // Open and grab tags from front matter.
-function getTags(noteFolderPath, isFileList = false) {
+function getTags(noteFolderPath, isCommandlet = false) {
   const config = vscode.workspace.getConfiguration('vsnotes');
   const ignorePattern = new RegExp(config.get('ignorePatterns')
     .map(function (pattern) { return '(' + pattern + ')' })
@@ -66,24 +66,26 @@ function getTags(noteFolderPath, isFileList = false) {
           }
 
           // return if return if needed filelist by tag
-          if (isFileList) resolve(fileByTag);
+          if (isCommandlet === true) {
+            resolve(fileByTag)
+          } else {
+            // tag list with files
+            let tags = [];
+            for (let tag of Object.keys(fileByTag)) {
+              tags.push({
+                type: "tag",
+                tag: tag,
+                files: fileByTag[tag],
+              });
+            }
 
-          // tag list with files
-          let tags = [];
-          for (let tag of Object.keys(fileByTag)) {
-            tags.push({
-              type: "tag",
-              tag: tag,
-              files: fileByTag[tag],
+            // Sort tags alphabetically
+            tags.sort(function (a, b) {
+              return a.tag > b.tag ? 1 : b.tag > a.tag ? -1 : 0;
             });
-          }
 
-          // Sort tags alphabetically
-          tags.sort(function (a, b) {
-            return a.tag > b.tag ? 1 : b.tag > a.tag ? -1 : 0;
-          });
-
-          resolve(tags);
+            resolve(tags);
+          };
         }).catch(err => {
           console.error(err)
         })

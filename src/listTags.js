@@ -13,7 +13,7 @@ module.exports = () => {
       if (tag != null) {
 
         let shortPaths = files[tag].map(function (item) {
-          return item.slice(noteFolderLen + 1, item.length);
+          return item.path.slice(noteFolderLen + 1, item.path.length);
         })
 
         vscode.window.showQuickPick(shortPaths).then(chosenShortPath => {

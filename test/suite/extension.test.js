@@ -1,15 +1,28 @@
 const assert = require('assert');
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 const vscode = require('vscode');
-const vsnote = require('../../extension');
+const getTasks = require('../../src/getTasks');
+const testData = require('./test-data');
 
 suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
+	vscode.window.showInformationMessage('Start "regular expression" tests.');
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+	test('task regular expression', () => {
+		let match = null;
+
+		match = testData.validCase.taskOngoing.match(getTasks.patternTask);
+		assert.notEqual(match, null);
+		assert.strictEqual(match.length, 3);
+
+		match = testData.validCase.taskCompleted.match(getTasks.patternTask);
+		assert.notEqual(match, null);
+		assert.strictEqual(match.length, 3);
+
+		match = testData.validCase.taskOngoingWithPreview.match(getTasks.patternTask);
+		assert.notEqual(match, null);
+		assert.strictEqual(match.length, 3);
+
+		match = testData.validCase.taskCompletedWithPreview.match(getTasks.patternTask);
+		assert.notEqual(match, null);
+		assert.strictEqual(match.length, 3);
 	});
 });

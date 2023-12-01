@@ -1,8 +1,8 @@
 # VS NOTES + TODO
 
-Forked from <https://github.com/patleeman/VSNotes> 0.8.0 and added Task tracking.
+Forked from <https://github.com/patleeman/VSNotes> 0.8.0 and added ToDo tracking.
 
-VS Notes + ToDo is extended version of VS Notes that is a simple tool that takes care of the creation and management of plain text notes and harnesses the power of VS Code via the Command Palette. The extended feature is for task tracking and seamlessly can check tasks across notes.
+"VS Notes + ToDo" is extended version of VS Notes. Original VS Notes is a simple tool that takes care of the creation and management of plain text notes and harnesses the power of VS Code via the Command Palette. The extended feature is for task tracking and seamlessly can check tasks across notes.
 
 <!-- TOC tocDepth:2..3 chapterDepth:2..6 -->
 
@@ -10,7 +10,7 @@ VS Notes + ToDo is extended version of VS Notes that is a simple tool that takes
 - [Features](#features)
     - [Inheritated from [original VS Notes](https://github.com/patleeman/VSNotes)](#inheritated-from-original-vs-noteshttpsgithubcompatleemanvsnotes)
     - [Added as new](#added-as-new)
-    - [Tags](#tags)
+    - [Tasks](#tasks)
     - [Custom Activity Bar Section & Explorer View](#custom-activity-bar-section-explorer-view)
 - [Settings](#settings)
 - [Roadmap & Features](#roadmap-features)
@@ -74,7 +74,7 @@ Tasks are scanned across notes and they are grouped by the following 2 settings.
 
 ### Custom Activity Bar Section & Explorer View
 
-![](https://github.com/patleeman/VSNotes/raw/master/img/vsnotes_view.png)
+![](https://github.com/mafut/VSNotes-ToDo/raw/master/img/vsnotes_view.png)
 
 [Original] VS Notes moves the treeview into it's own custom location in the activity bar.
 
@@ -181,4 +181,4 @@ Available settings
 
 ## Reviews
 
-[Do you like VS Notes? Leave a review.](https://marketplace.visualstudio.com/items?itemName=mafut.vsnotes-todo#review-details)
+[Do you like VS Notes+ToDo? Leave a review.](https://marketplace.visualstudio.com/items?itemName=mafut.vsnotes-todo#review-details)

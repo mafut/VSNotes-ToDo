@@ -1,4 +1,4 @@
-# Contributing to VS Notes
+# Contributing to VS Notes + ToDo
 
 Contributions and bug fixes are welcome.
 
