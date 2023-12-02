@@ -48,15 +48,15 @@ module.exports = function () {
       }
 
       vscode.window.showQuickPick(shortPaths).then(res => {
-        if (res != null && res ) {
+        if (res != null && res) {
           vscode.window.showTextDocument(vscode.Uri.file(path.join(noteFolder, res))).then(file => {
             console.log('Opening file ', res);
           }, err => {
             console.error(err);
-          })
+          });
         }
       }, err => {
         console.error(err);
-      })
+      });
     });
 }

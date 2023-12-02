@@ -26,10 +26,10 @@ module.exports = function () {
           });
         }
       }).catch(err => {
-        vscode.window.showErrorMessage('Error occurred during setup.')
-        console.error(err)
+        vscode.window.showErrorMessage('Error occurred during setup.');
+        console.error(err);
       });
 
     }
-  })
+  });
 }

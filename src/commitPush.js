@@ -25,9 +25,9 @@ module.exports = function () {
           vscode.window.showInformationMessage(`Commit and Push executed!`);
           console.log(stdout, stderr);
         }
-      })
+      });
     } else {
       vscode.window.showInformationMessage(`Commit and Push cancelled.`);
     }
-  })
+  });
 }

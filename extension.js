@@ -1,9 +1,9 @@
 const vscode = require('vscode');
 
-const { newNote, newNoteInWorkspace } = require('./src/newNote');
+const { newNote, newNoteInWorkspace, delNote } = require('./src/note');
 const listNotes = require('./src/listNotes');
-const listTags = require('./src/listTags')
-//const listTasks = require('./src/listTasks')
+const listTags = require('./src/listTags');
+//const listTasks = require('./src/listTasks');
 const setupNotes = require('./src/setupNotes');
 const VSNotesTreeView = require('./src/treeView');
 const commitPush = require('./src/commitPush');
@@ -14,11 +14,11 @@ const utils = require('./src/utils');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
-  const tv = new VSNotesTreeView()
+  const tv = new VSNotesTreeView();
   vscode.window.registerTreeDataProvider('vsnotes', tv);
 
   // Refresh View
-  vscode.commands.registerCommand('vsnotes.refreshVSNotesView', () => tv.refresh());
+  vscode.commands.registerCommand('vsnotes.refresh', () => tv.refresh());
 
   // Go to
   vscode.commands.registerCommand('vsnotes.gotoTask', (item) => tv.goto(item));
@@ -30,6 +30,10 @@ function activate(context) {
   // Create a new note in a current workspace
   let newNoteInWorkspaceDisposable = vscode.commands.registerCommand('vsnotes.newNoteInWorkspace', newNoteInWorkspace);
   context.subscriptions.push(newNoteInWorkspaceDisposable);
+
+  // Create a new note
+  let delNoteDisposable = vscode.commands.registerCommand('vsnotes.delNote', delNote);
+  context.subscriptions.push(delNoteDisposable);
 
   // Open a note
   let listNotesDisposable = vscode.commands.registerCommand('vsnotes.listNotes', listNotes);
@@ -62,9 +66,9 @@ function activate(context) {
   let openNoteFolderDisposable = vscode.commands.registerCommand('vsnotes.openNoteFolder', () => {
     const noteFolder = vscode.workspace.getConfiguration('vsnotes').get('defaultNotePath');
     const folderPath = utils.resolveHome(noteFolder);
-    const uri = vscode.Uri.file(folderPath)
+    const uri = vscode.Uri.file(folderPath);
     return vscode.commands.executeCommand('vscode.openFolder', uri, true);
-  })
+  });
   context.subscriptions.push(openNoteFolderDisposable);
 }
 

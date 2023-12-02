@@ -11,10 +11,10 @@ module.exports = async function () {
   if (openWorkspace == null) {
     vscode.window.showWarningMessage('Whoops, can\'t search without an open folder in the workspace. Open notes folder?', ...['Open']).then(val => {
       if (val == 'Open') {
-        vscode.commands.executeCommand('vscode.openFolder', folderPath)
+        vscode.commands.executeCommand('vscode.openFolder', folderPath);
       }
-    })
+    });
   } else {
-    vscode.commands.executeCommand('filesExplorer.findInFolder', folderPath)
+    vscode.commands.executeCommand('filesExplorer.findInFolder', folderPath);
   }
 }

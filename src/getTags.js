@@ -6,7 +6,7 @@ const matter = require('gray-matter');
 
 // Given a folder path, traverse and find all markdown files.
 // Open and grab tags from front matter.
-function getTags(noteFolderPath, isCommandlet = false) {
+function getTags(noteFolderPath, isCommand = false) {
   const config = vscode.workspace.getConfiguration('vsnotes');
   const ignorePattern = new RegExp(config.get('ignorePatterns')
     .map(function (pattern) { return '(' + pattern + ')' })
@@ -35,14 +35,14 @@ function getTags(noteFolderPath, isCommandlet = false) {
             }).catch(err => {
               console.log(err);
               res(); // resolve undefined
-            })
+            });
           } else {
             res(); // resolve undefined
           }
-        }))
+        }));
       })
       .on('error', (err, item) => {
-        reject(err)
+        reject(err);
         console.error('Error while walking notes folder for tags: ', item, err);
       })
       .on('end', () => {
@@ -65,9 +65,9 @@ function getTags(noteFolderPath, isCommandlet = false) {
             }
           }
 
-          // return if return if needed filelist by tag
-          if (isCommandlet === true) {
-            resolve(fileByTag)
+          // return if return if needed file list by tag
+          if (isCommand === true) {
+            resolve(fileByTag);
           } else {
             // tag list with files
             let tags = [];
@@ -87,15 +87,15 @@ function getTags(noteFolderPath, isCommandlet = false) {
             resolve(tags);
           };
         }).catch(err => {
-          console.error(err)
-        })
-      })
-  })
+          console.error(err);
+        });
+      });
+  });
 }
 
 function parseFrontMatter(file) {
   try {
-    const parsedFrontMatter = matter(file.contents)
+    const parsedFrontMatter = matter(file.contents);
     if (!(parsedFrontMatter.data instanceof Object)) {
       console.error('YAML front-matter is not an object: ', file.path);
       return null;

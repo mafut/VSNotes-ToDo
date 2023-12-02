@@ -18,5 +18,5 @@ module.exports = function () {
       vscode.window.showInformationMessage(`Pull Finished at ${noteFolder}`);
       console.log(stdout, stderr);
     }
-  })
+  });
 }

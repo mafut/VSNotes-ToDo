@@ -42,8 +42,7 @@ function getTasks(noteFolderPath, isCommand = false) {
             } else {
               res();
             }
-          })
-        );
+          }));
       })
       .on("error", (err, item) => {
         reject(err);

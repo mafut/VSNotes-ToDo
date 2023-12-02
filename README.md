@@ -8,10 +8,10 @@ Forked from <https://github.com/patleeman/VSNotes> 0.8.0 and added ToDo tracking
 
 - [Repository](#repository)
 - [Features](#features)
-    - [Inheritated from [original VS Notes](https://github.com/patleeman/VSNotes)](#inheritated-from-original-vs-noteshttpsgithubcompatleemanvsnotes)
+    - [Screenshot](#screenshot)
+    - [Inheritated from original VS Notes](#inheritated-from-original-vs-notes)
     - [Added as new](#added-as-new)
     - [Tasks](#tasks)
-    - [Custom Activity Bar Section & Explorer View](#custom-activity-bar-section-explorer-view)
 - [Settings](#settings)
 - [Roadmap & Features](#roadmap-features)
 - [Change log](#change-log)
@@ -22,11 +22,15 @@ Forked from <https://github.com/patleeman/VSNotes> 0.8.0 and added ToDo tracking
 
 ## Repository
 
-[VS Notes + ToDo is MIT Licensed and available on Github](https://github.com/mafut/VSNotes-ToDo)
+VS Notes + ToDo is MIT Licensed and available on [Github](https://github.com/mafut/VSNotes-ToDo)
 
 ## Features
 
-### Inheritated from [original VS Notes](https://github.com/patleeman/VSNotes)
+### Screenshot
+
+![](https://github.com/mafut/VSNotes-ToDo/raw/master/img/vsnotes_view.png)
+
+### Inheritated from original VS Notes
 
 1. Access commands quickly from the VS Code command palette `Ctrl/Cmd + Shift + p`.
 2. Set a base folder for your notes and all notes created will be saved in that folder.
@@ -42,6 +46,7 @@ Forked from <https://github.com/patleeman/VSNotes> 0.8.0 and added ToDo tracking
 
 1. Retrieve uncompleted tasks ("- [ ] as format") on your notes.
 2. View your tasks in your filebar and Jump to each task
+3. Support to add/delete a note from explorer view or context menu.
 
 ### Tasks
 
@@ -71,17 +76,6 @@ Tasks are scanned across notes and they are grouped by the following 2 settings.
  Project | Plan.md | - [ ] Prefix: ToDo1 | Per Folder | Override | **Prefix**
  Project | Plan.md | - [ ] Prefix: ToDo1 | Per Folder | Sub | **Project-Sub**
 
-
-### Custom Activity Bar Section & Explorer View
-
-![](https://github.com/mafut/VSNotes-ToDo/raw/master/img/vsnotes_view.png)
-
-[Original] VS Notes moves the treeview into it's own custom location in the activity bar.
-
-[Original] Show or hide the tags or files section of the treeview with the `treeviewHideTags` and `treeviewHideFiles` settings.
-
-[New in 0.1.0] Show or hide the tasks section of the treeview with the `treeviewHideTasks` settings.
-
 ## Settings
 
 Available settings
@@ -103,7 +97,7 @@ Available settings
 "vsnotes.defaultNotePath": "",
 
 // Default note title. Utilizes tokens set in vsnotes.tokens.
-"vsnotes.defaultNoteTitle": "{dt}_{title}.{ext}",
+"vsnotes.defaultNoteTitle": "{title}.{ext}",
 
 // Default vscode snippet to execute after creating a note. Set both langId and name to null to disable.
 "vsnotes.defaultSnippet": {

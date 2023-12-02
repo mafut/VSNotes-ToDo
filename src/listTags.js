@@ -14,24 +14,24 @@ module.exports = () => {
 
         let shortPaths = files[tag].map(function (item) {
           return item.path.slice(noteFolderLen + 1, item.path.length);
-        })
+        });
 
         vscode.window.showQuickPick(shortPaths).then(chosenShortPath => {
           if (chosenShortPath != null && chosenShortPath) {
-            const fullpath = path.join(noteFolder, chosenShortPath)
+            const fullpath = path.join(noteFolder, chosenShortPath);
 
             vscode.window.showTextDocument(vscode.Uri.file(fullpath)).then(file => {
               console.log('Opening file ' + fullpath);
             }, err => {
               console.error(err);
-            })
+            });
           }
         }, err => {
-          console.error(err)
-        })
+          console.error(err);
+        });
       }
     }, err => {
-      console.error(err)
-    })
-  })
+      console.error(err);
+    });
+  });
 }

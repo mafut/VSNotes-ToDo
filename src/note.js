@@ -1,9 +1,8 @@
-
 const vscode = require('vscode');
 const fs = require('fs-extra');
 const path = require('path');
 const moment = require('moment');
-const {resolveHome} = require('./utils');
+const { resolveHome } = require('./utils');
 
 // This function handles creation of a new note in default note folder
 function newNote() {
@@ -11,23 +10,23 @@ function newNote() {
   const noteFolder = resolveHome(config.get('defaultNotePath'));
   const templates = config.get('templates');
 
-
   if (!templates || !templates.length) {
     createNote({ noteFolder });
-    return
+    return;
   }
 
-  vscode.window.showQuickPick (templates, {
+  vscode.window.showQuickPick(templates, {
     placeHolder: 'Please select a template. Hit esc to use default.',
   })
-  .then(template => {
-    console.log(template)
-    createNote({ noteFolder, template });
-  }, err => {
-    console.error(err);
-  })
+    .then(template => {
+      console.log(template);
+      createNote({ noteFolder, template });
+    }, err => {
+      console.error(err);
+    });
 }
 
+// This function handles creation of a new note in workspace folder
 function newNoteInWorkspace() {
   const workspaces = vscode.workspace.workspaceFolders;
   if (workspaces == null || workspaces.length === 0) {
@@ -55,6 +54,16 @@ function newNoteInWorkspace() {
   }
 }
 
+function delNote(context) {
+  fs.remove(context.path)
+    .then(() => {
+      vscode.commands.executeCommand('vsnotes.refresh');
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
 async function createNote({ noteFolder, template }) {
   const config = vscode.workspace.getConfiguration('vsnotes');
   const defaultNoteName = config.get('defaultNoteName');
@@ -66,9 +75,8 @@ async function createNote({ noteFolder, template }) {
   if (noteTitles.length > 0) {
     noteTitle = await vscode.window.showQuickPick([noteTitle, ...noteTitles], {
       placeHolder: 'Please select a note title format.'
-    })
+    });
   }
-
 
   if (noteFolder == null || !noteFolder) {
     vscode.window.showErrorMessage('Default note folder not found. Please run setup.');
@@ -76,10 +84,11 @@ async function createNote({ noteFolder, template }) {
   }
 
   // Get the name for the note
+  let today = new Date();
   const inputBoxPromise = vscode.window.showInputBox({
-    prompt: `Note title? Current Format ${noteTitle}. Hit enter for instant note.`,
-    value: "",
-  })
+    prompt: `Title? Creating file format is ${noteTitle}. Input can have folder like "folder/title".`,
+    value: today.toISOString().split('T')[0]
+  });
 
   inputBoxPromise.then(noteName => {
     // Check for aborting the new note dialog
@@ -102,7 +111,7 @@ async function createNote({ noteFolder, template }) {
     const createFilePromise = createFile(noteFolder, fileName, '');
     createFilePromise.then(filePath => {
       if (typeof filePath !== 'string') {
-        console.error('Invalid file path')
+        console.error('Invalid file path');
         return false
       }
 
@@ -112,14 +121,15 @@ async function createNote({ noteFolder, template }) {
       }).then(() => {
         console.log('Note created successfully: ', filePath);
 
-        createTemplate({ template })
-      })
-    })
+        createTemplate({ template });
 
+        vscode.commands.executeCommand('vsnotes.refresh');
+      });
+    });
   }, err => {
     vscode.workspace.showErrorMessage('Error occurred while creating note.');
     console.error(err);
-  })
+  });
 }
 
 function createTemplate({ template = null }) {
@@ -128,11 +138,11 @@ function createTemplate({ template = null }) {
   if (template != null) {
     vscode.commands.executeCommand('editor.action.insertSnippet', ...[{ langId: 'markdown', name: `vsnote_template_${template}` }]).then(res => {
       vscode.window.showInformationMessage(`Note for "${template}" created!`);
-      console.log('template created: ', res)
+      console.log('template created: ', res);
     }, err => {
       vscode.window.showErrorMessage('Template creation error.');
-      console.error('template creation error: ', err)
-    })
+      console.error('template creation error: ', err);
+    });
   } else {
     // default template
     const snippetLangId = config.get('defaultSnippet.langId');
@@ -141,16 +151,15 @@ function createTemplate({ template = null }) {
     // Insert the default note text
     if (snippetLangId != null && snippetName != null) {
       vscode.commands.executeCommand('editor.action.insertSnippet', ...[{ langId: snippetLangId, name: snippetName }]).then(res => {
-        console.log(res)
+        console.log(res);
       }, err => {
-        console.error(err)
-      })
+        console.error(err);
+      });
     }
   }
 }
 
-// Create the given file if it doesn't exist
-function createFile (folderPath, fileName) {
+function createFile(folderPath, fileName) {
   return new Promise((resolve, reject) => {
     if (folderPath == null || fileName == null) {
       reject();
@@ -158,14 +167,14 @@ function createFile (folderPath, fileName) {
     const fullPath = path.join(folderPath, fileName);
     // fs-extra
     fs.ensureFile(fullPath).then(() => {
-      resolve(fullPath)
+      resolve(fullPath);
     }).catch(err => {
-      reject(err)
-    })
+      reject(err);
+    });
   });
 }
 
-function replaceTokens (format, title, tokens) {
+function replaceTokens(format, title, tokens) {
   let newFormat = format
   const pattern = /(?:\{)(.+?)(?:\})/g;
   let result;
@@ -182,7 +191,7 @@ function replaceTokens (format, title, tokens) {
             const splitTitle = title.split(path.sep);
             if (splitTitle.length > 1) {
               title = splitTitle[splitTitle.length - 1];
-              prependedPath = splitTitle.slice(0,splitTitle.length - 1);
+              prependedPath = splitTitle.slice(0, splitTitle.length - 1);
             }
             newFormat = prependedPath.concat(newFormat.replace(new RegExp(token.token, 'g'), title)).join(path.sep);
             break;
@@ -198,5 +207,6 @@ function replaceTokens (format, title, tokens) {
 
 module.exports = {
   newNote,
-  newNoteInWorkspace
+  newNoteInWorkspace,
+  delNote
 }

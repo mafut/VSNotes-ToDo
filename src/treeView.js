@@ -6,28 +6,30 @@ const { getTasks } = require("./getTasks");
 const { resolveHome } = require("./utils");
 
 class VSNotesTreeView {
-
   constructor() {
     const config = vscode.workspace.getConfiguration("vsnotes");
     this.baseDir = resolveHome(config.get("defaultNotePath"));
     this.ignorePattern = new RegExp(
       config
         .get("ignorePatterns")
-        .map(function (pattern) {
-          return "(" + pattern + ")";
-        })
-        .join("|")
-    );
+        .map(function (pattern) { return "(" + pattern + ")"; })
+        .join("|"));
     this.hideTags = config.get("treeviewHideTags");
     this.hideTasks = config.get("treeviewHideTasks");
     this.hideFiles = config.get("treeviewHideFiles");
 
-    this._onDidChangeTreeData = new vscode.EventEmitter();
-    this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+
+    this.emitter = new vscode.EventEmitter();
+    this.onDidChangeTreeData = this.emitter.event;
+
+    // let fileWatcher = vscode.workspace.createFileSystemWatcher(this.baseDir);
+    // fileWatcher.onDidChange(() => {
+    //   this.refresh();
+    // });
   }
 
   refresh() {
-    this._onDidChangeTreeData.fire();
+    this.emitter.fire();
   }
 
   goto(node) {
