@@ -55,13 +55,15 @@ function newNoteInWorkspace() {
 }
 
 function delNote(context) {
-  fs.remove(context.path)
-    .then(() => {
-      vscode.commands.executeCommand('vsnotes.refresh');
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  if (context && context.path && fs.exists(context.path)) {
+    fs.remove(context.path)
+      .then(() => {
+        vscode.commands.executeCommand('vsnotes.refresh');
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
 }
 
 async function createNote({ noteFolder, template }) {

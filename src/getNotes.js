@@ -13,18 +13,25 @@ function getNotes(noteFolderPath) {
   return new Promise((resolve, reject) => {
     fs.readdir(noteFolderPath)
       .then((files) => {
+        let folders = [];
         let items = [];
         files.forEach((file) => {
           if (!ignorePattern.test(file)) {
-            items.push({
+            let item = {
               type: "file",
               file: file,
               path: path.join(noteFolderPath, file),
               stats: fs.statSync(path.join(noteFolderPath, file)),
-            });
+            };
+
+            if (item.stats.isDirectory()) {
+              folders.push(item);
+            } else {
+              items.push(item);
+            }
           }
         });
-        resolve(items);
+        resolve(folders.concat(items));
       })
       .catch((err) => {
         reject(err);

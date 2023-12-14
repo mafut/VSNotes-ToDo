@@ -30,8 +30,8 @@ function activate(context) {
   // Create a new note in a current workspace
   let newNoteInWorkspaceDisposable = vscode.commands.registerCommand('vsnotes.newNoteInWorkspace', newNoteInWorkspace);
   context.subscriptions.push(newNoteInWorkspaceDisposable);
-
-  // Create a new note
+  
+  // Delete a note
   let delNoteDisposable = vscode.commands.registerCommand('vsnotes.delNote', delNote);
   context.subscriptions.push(delNoteDisposable);
 

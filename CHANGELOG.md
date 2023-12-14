@@ -4,6 +4,23 @@ All notable changes to the "vsnotes-todo" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.5] - 2023-12-13
+
+### Added
+
+- Fix to handle deleting from command
+- Sorted folders first
+
+
+## [0.1.4] - 2023-12-1
+
+### Added
+
+- Icon to add a note in Explorer view
+- Context menu to delete a note
+- Auto refresh when add/delete
+
+
 ## [0.1.3] - 2023-11-30
 
 ### Added
